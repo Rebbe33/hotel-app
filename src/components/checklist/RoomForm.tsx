@@ -5,8 +5,18 @@ import { CleanType, CLEAN_TYPE_LABELS } from '@/types'
 
 interface Props {
   onSaved: () => void
-  initialData?: { id: string; number: string; floor: number; type: string; clean_type: CleanType; notes: string }
+  initialData?: {
+    id: string
+    number: string
+    floor: number
+    type: string
+    notes: string
+    nb_personnes: number
+    nb_lits: number
+    places_par_lit: number
+  }
 }
+
 
 export function RoomForm({ onSaved, initialData }: Props) {
   const [number, setNumber] = useState(initialData?.number ?? '')
