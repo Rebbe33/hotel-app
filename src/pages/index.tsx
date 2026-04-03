@@ -6,6 +6,7 @@ import { PageHeader, Card, Button, Badge, Modal } from '@/components/ui'
 import { RoomCard } from '@/components/checklist/RoomCard'
 import { RoomForm } from '@/components/checklist/RoomForm'
 import { cn } from '@/lib/utils'
+import { ImportChecklist } from '@/components/checklist/ImportChecklist'
 
 const STATUS_COLORS: Record<RoomStatus, string> = {
   a_faire: 'terra',
@@ -20,6 +21,7 @@ export default function ChambresPage() {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState<RoomStatus | 'tous'>('tous')
   const [showForm, setShowForm] = useState(false)
+  const [showImport, setShowImport] = useState(false)
 
   const fetchRooms = async () => {
     const { data } = await supabase
@@ -52,9 +54,14 @@ export default function ChambresPage() {
         title="Chambres"
         subtitle={`${rooms.length} chambres · ${counts.termine} terminées`}
         action={
-          <Button size="sm" onClick={() => setShowForm(true)}>
-            <Plus size={16} /> Ajouter
-          </Button>
+          <div className="flex gap-2">
+  <Button size="sm" variant="secondary" onClick={() => setShowImport(true)}>
+    ⚙️
+  </Button>
+  <Button size="sm" onClick={() => setShowForm(true)}>
+    <Plus size={16} /> Ajouter
+  </Button>
+</div>
         }
       />
 
@@ -105,6 +112,10 @@ export default function ChambresPage() {
       <Modal open={showForm} onClose={() => setShowForm(false)} title="Nouvelle chambre">
         <RoomForm onSaved={() => { setShowForm(false); fetchRooms() }} />
       </Modal>
+
+      <Modal open={showImport} onClose={() => setShowImport(false)} title="Importer des tâches">
+  <ImportChecklist onImported={() => setShowImport(false)} />
+</Modal>
     </>
   )
 }
