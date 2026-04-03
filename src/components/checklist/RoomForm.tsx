@@ -101,24 +101,6 @@ const [placesParLit, setPlacesParLit] = useState(initialData?.places_par_lit?.to
   </div>
 </div>
       <div>
-        <label className="block text-sm font-body font-semibold text-gray-700 mb-2">Type de nettoyage</label>
-        <div className="grid grid-cols-3 gap-2">
-          {(['recouche', 'blanc', 'blanc_total'] as CleanType[]).map(ct => (
-            <button
-              key={ct}
-              onClick={() => setCleanType(ct)}
-              className={`py-2 rounded-xl text-xs font-body font-semibold border transition-all ${
-                cleanType === ct
-                  ? 'bg-sage-600 text-white border-sage-600'
-                  : 'bg-cream-50 text-gray-600 border-cream-200'
-              }`}
-            >
-              {CLEAN_TYPE_LABELS[ct]}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div>
         <label className="block text-sm font-body font-semibold text-gray-700 mb-1">Notes</label>
         <textarea
           value={notes}
