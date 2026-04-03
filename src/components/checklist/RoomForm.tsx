@@ -22,7 +22,6 @@ export function RoomForm({ onSaved, initialData }: Props) {
   const [number, setNumber] = useState(initialData?.number ?? '')
   const [floor, setFloor] = useState(initialData?.floor?.toString() ?? '1')
   const [type, setType] = useState(initialData?.type ?? 'standard')
-  const [cleanType, setCleanType] = useState<CleanType>(initialData?.clean_type ?? 'recouche')
   const [notes, setNotes] = useState(initialData?.notes ?? '')
   const [saving, setSaving] = useState(false)
   const [nbPersonnes, setNbPersonnes] = useState(initialData?.nb_personnes?.toString() ?? '1')
