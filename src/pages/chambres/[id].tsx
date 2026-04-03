@@ -148,9 +148,11 @@ const toggleBlancTotal = async (itemId: string) => {
           <div className="flex-1">
             <h1 className="font-display text-xl font-bold text-gray-800">Chambre {room.number}</h1>
             <div className="flex items-center gap-2 mt-0.5">
-              <Badge variant={room.clean_type === 'blanc_total' ? 'terra' : room.clean_type === 'blanc' ? 'sage' : 'cream'}>
-                {CLEAN_TYPE_LABELS[room.clean_type]}
-              </Badge>
+              {cleanType && (
+  <Badge variant={cleanType === 'blanc' ? 'sage' : 'cream'}>
+    {CLEAN_TYPE_LABELS[cleanType]}
+  </Badge>
+)}
               <span className="text-xs text-gray-400 font-body">Étage {room.floor}</span>
             </div>
           </div>
