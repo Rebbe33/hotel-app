@@ -1,22 +1,19 @@
-import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronRight, BedDouble, MoreVertical } from 'lucide-react'
-import { Room, RoomStatus, CleanType, CLEAN_TYPE_LABELS, ROOM_STATUS_LABELS } from '@/types'
-import { supabase } from '@/lib/supabase'
-import { Card, Badge } from '@/components/ui'
+import { Room, RoomStatus, ROOM_STATUS_LABELS } from '@/types'
 import { cn } from '@/lib/utils'
 
-const STATUS_BADGE: Record<RoomStatus, string> = {
-  a_faire: 'terra',
-  en_cours: 'sage',
-  termine: 'cream',
-  bloque: 'urgent',
+const STATUS_STYLES: Record<RoomStatus, string> = {
+  a_faire: 'border-terracotta-300 bg-terracotta-400/5',
+  en_cours: 'border-sage-400 bg-sage-400/5',
+  termine: 'border-green-300 bg-green-50',
+  bloque: 'border-red-300 bg-red-50',
 }
 
-const CLEAN_TYPE_BADGE: Record<CleanType, string> = {
-  recouche: 'cream',
-  blanc: 'sage',
-  blanc_total: 'terra',
+const STATUS_DOT: Record<RoomStatus, string> = {
+  a_faire: 'bg-terracotta-400',
+  en_cours: 'bg-sage-500',
+  termine: 'bg-green-400',
+  bloque: 'bg-red-400',
 }
 
 interface Props {
@@ -25,74 +22,34 @@ interface Props {
 }
 
 export function RoomCard({ room, onUpdate }: Props) {
-  const [showMenu, setShowMenu] = useState(false)
-
-  const updateStatus = async (status: RoomStatus) => {
-    await supabase.from('hotel_rooms').update({ status }).eq('id', room.id)
-    setShowMenu(false)
-    onUpdate()
-  }
-
   return (
-    <Card className="overflow-hidden">
-      <div className="flex items-center">
-        {/* Color strip by clean type */}
-        <div className={cn(
-          'w-1.5 self-stretch flex-shrink-0',
-          room.clean_type === 'recouche' ? 'bg-linen' :
-          room.clean_type === 'blanc' ? 'bg-sage-400' : 'bg-terracotta-400'
-        )} />
-
-        <Link href={`/chambres/${room.id}`} className="flex-1 flex items-center px-4 py-3 gap-3">
-          <div className="w-10 h-10 rounded-xl bg-cream-100 flex items-center justify-center flex-shrink-0">
-            <span className="font-display font-bold text-sage-700 text-sm">{room.number}</span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-body font-semibold text-gray-800">Chambre {room.number}</span>
-              <Badge variant={CLEAN_TYPE_BADGE[room.clean_type] as any} className="text-[10px]">
-                {CLEAN_TYPE_LABELS[room.clean_type]}
-              </Badge>
-            </div>
-            <div className="flex items-center gap-2 mt-1">
-              <Badge variant={STATUS_BADGE[room.status] as any} className="text-[10px]">
-                {ROOM_STATUS_LABELS[room.status]}
-              </Badge>
-              <span className="text-xs text-gray-400 font-body">Étage {room.floor}</span>
-            </div>
-          </div>
-          <ChevronRight size={18} className="text-gray-300 flex-shrink-0" />
-        </Link>
-
-        {/* Quick status menu */}
-        <div className="relative pr-2">
-          <button
-            onClick={() => setShowMenu(!showMenu)}
-            className="p-2 rounded-lg text-gray-400 active:bg-cream-100"
-          >
-            <MoreVertical size={18} />
-          </button>
-          {showMenu && (
-            <>
-              <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
-              <div className="absolute right-0 top-10 z-20 bg-white rounded-xl shadow-card border border-cream-200 overflow-hidden min-w-[150px]">
-                {(['a_faire', 'en_cours', 'termine', 'bloque'] as RoomStatus[]).map(s => (
-                  <button
-                    key={s}
-                    onClick={() => updateStatus(s)}
-                    className={cn(
-                      'w-full text-left px-4 py-2.5 text-sm font-body transition-colors',
-                      room.status === s ? 'bg-cream-100 font-semibold text-sage-700' : 'hover:bg-cream-50'
-                    )}
-                  >
-                    {ROOM_STATUS_LABELS[s]}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
+    <Link href={`/chambres/${room.id}`}>
+      <div className={cn(
+        'rounded-2xl border-2 p-4 flex flex-col gap-3 active:scale-[0.97] transition-all',
+        STATUS_STYLES[room.status]
+      )}>
+        {/* Numéro + statut dot */}
+        <div className="flex items-start justify-between">
+          <span className="font-display font-bold text-3xl text-gray-800">
+            {room.number}
+          </span>
+          <span className={cn('w-3 h-3 rounded-full mt-1', STATUS_DOT[room.status])} />
         </div>
+
+        {/* Étage */}
+        <span className="text-xs text-gray-400 font-body">Étage {room.floor}</span>
+
+        {/* Statut */}
+        <span className={cn(
+          'text-xs font-body font-semibold px-2 py-1 rounded-full self-start',
+          room.status === 'termine' ? 'bg-green-100 text-green-700' :
+          room.status === 'en_cours' ? 'bg-sage-400/20 text-sage-700' :
+          room.status === 'bloque' ? 'bg-red-100 text-red-700' :
+          'bg-terracotta-400/20 text-terracotta-600'
+        )}>
+          {ROOM_STATUS_LABELS[room.status]}
+        </span>
       </div>
-    </Card>
+    </Link>
   )
 }
