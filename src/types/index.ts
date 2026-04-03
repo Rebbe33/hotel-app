@@ -5,16 +5,11 @@ export type TaskStatus = 'a_faire' | 'en_cours' | 'termine'
 export type StockCategory = 'linge' | 'produits' | 'amenities' | 'autre'
 export type ChecklistCategory = 'salle_de_bain' | 'chambre' | 'entree' | 'general'
 
-export interface Room {
+export interface RoomBlancTotal {
   id: string
-  number: string
-  floor: number
-  type: string
-  status: RoomStatus
-  clean_type: CleanType
-  notes: string | null
-  created_at: string
-  updated_at: string
+  room_id: string
+  checklist_item_id: string
+  checked_at: string
 }
 
 export interface ChecklistItem {
