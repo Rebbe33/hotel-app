@@ -77,7 +77,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center animate-fade-in">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative w-full max-w-lg bg-white rounded-t-3xl shadow-card animate-slide-up max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-white rounded-t-3xl shadow-card animate-slide-up max-h-[90vh] overflow-y-auto pb-28">
         <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-cream-200">
           {title && <h2 className="font-display text-lg font-semibold text-gray-800">{title}</h2>}
           <button onClick={onClose} className="ml-auto p-2 rounded-full hover:bg-cream-100 transition-colors">
