@@ -15,11 +15,20 @@ export function RoomForm({ onSaved, initialData }: Props) {
   const [cleanType, setCleanType] = useState<CleanType>(initialData?.clean_type ?? 'recouche')
   const [notes, setNotes] = useState(initialData?.notes ?? '')
   const [saving, setSaving] = useState(false)
+  const [nbPersonnes, setNbPersonnes] = useState(initialData?.nb_personnes?.toString() ?? '1')
+const [nbLits, setNbLits] = useState(initialData?.nb_lits?.toString() ?? '1')
+const [placesParLit, setPlacesParLit] = useState(initialData?.places_par_lit?.toString() ?? '1')
 
   const handleSubmit = async () => {
     if (!number.trim()) return
     setSaving(true)
-    const payload = { number: number.trim(), floor: parseInt(floor), type, clean_type: cleanType, notes }
+    const payload = { number: number.trim(),
+  floor: parseInt(floor),
+  type,
+  notes,
+  nb_personnes: parseInt(nbPersonnes) || 1,
+  nb_lits: parseInt(nbLits) || 1,
+  places_par_lit: parseInt(placesParLit) || 1, }
     if (initialData?.id) {
       await supabase.from('hotel_rooms').update(payload).eq('id', initialData.id)
     } else {
@@ -65,6 +74,23 @@ export function RoomForm({ onSaved, initialData }: Props) {
           </select>
         </div>
       </div>
+      <div className="grid grid-cols-3 gap-3">
+  <div>
+    <label className="block text-xs font-body font-semibold text-gray-700 mb-1">Personnes</label>
+    <input type="number" value={nbPersonnes} onChange={e => setNbPersonnes(e.target.value)} min={1}
+      className="w-full px-3 py-2.5 bg-cream-50 border border-cream-200 rounded-xl text-sm font-body focus:outline-none focus:border-sage-400" />
+  </div>
+  <div>
+    <label className="block text-xs font-body font-semibold text-gray-700 mb-1">Nb lits</label>
+    <input type="number" value={nbLits} onChange={e => setNbLits(e.target.value)} min={1}
+      className="w-full px-3 py-2.5 bg-cream-50 border border-cream-200 rounded-xl text-sm font-body focus:outline-none focus:border-sage-400" />
+  </div>
+  <div>
+    <label className="block text-xs font-body font-semibold text-gray-700 mb-1">Places/lit</label>
+    <input type="number" value={placesParLit} onChange={e => setPlacesParLit(e.target.value)} min={1}
+      className="w-full px-3 py-2.5 bg-cream-50 border border-cream-200 rounded-xl text-sm font-body focus:outline-none focus:border-sage-400" />
+  </div>
+</div>
       <div>
         <label className="block text-sm font-body font-semibold text-gray-700 mb-2">Type de nettoyage</label>
         <div className="grid grid-cols-3 gap-2">
