@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-lato: 'Lato', system-ui, sans-serif;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-lato);
+  background-color: #fdfcf8;
+  color: #2d2d2d;
+  min-height: 100vh;
+  /* Safe area pour iPhone */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Scrollbar discrète */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1c9bb; border-radius: 2px; }
+
+/* Animations */
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.animate-slide-up { animation: slideUp 0.25s ease-out; }
+.animate-fade-in { animation: fadeIn 0.2s ease-out; }
+.animate-pulse-ring { animation: pulse-ring 2s ease-in-out infinite; }
+
+/* Bottom nav safe area */
+.bottom-nav {
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+}
+
+/* Checkbox custom */
+.checkbox-custom {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #8aab8a;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  position: relative;
+}
+.checkbox-custom:checked {
+  background: #6b8f6b;
+  border-color: #6b8f6b;
+}
+.checkbox-custom:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px; top: 2px;
+  width: 8px; height: 12px;
+  border: 2px solid white;
+  border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #e8dfd0;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #8aab8a, #6b8f6b);
+  transition: width 0.4s ease;
+}
+
+/* Timer ring */
+.timer-ring-bg { stroke: #e8dfd0; }
+.timer-ring-fill {
+  stroke: #6b8f6b;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1s linear;
+}
+.timer-ring-urgent .timer-ring-fill { stroke: #c4704f; }
