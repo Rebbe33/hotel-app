@@ -59,7 +59,6 @@ const [blancTotalChecks, setBlancTotalChecks] = useState<Set<string>>(new Set())
 
     setLoading(false) 
   }
-  }
 
   useEffect(() => { fetchData() }, [id])
 
