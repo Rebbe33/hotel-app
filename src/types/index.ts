@@ -18,6 +18,9 @@ export interface Room {
   floor: number
   type: string
   status: RoomStatus
+  nb_personnes: number      // ← ajouter
+  nb_lits: number           // ← ajouter
+  places_par_lit: number    // ← ajouter
   notes: string | null
   created_at: string
   updated_at: string
