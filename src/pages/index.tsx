@@ -96,17 +96,11 @@ export default function ChambresPage() {
       </div>
 
       {/* Room list */}
-      <div className="px-5 space-y-3">
-        {loading ? (
-          <div className="text-center py-12 text-gray-400 font-body">Chargement...</div>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-12 text-gray-400 font-body">Aucune chambre trouvée</div>
-        ) : (
-          filtered.map(room => (
-            <RoomCard key={room.id} room={room} onUpdate={fetchRooms} />
-          ))
-        )}
-      </div>
+     <div className="px-5 grid grid-cols-2 gap-3">
+  {filtered.map(room => (
+    <RoomCard key={room.id} room={room} onUpdate={fetchRooms} />
+  ))}
+</div>
 
       <Modal open={showForm} onClose={() => setShowForm(false)} title="Nouvelle chambre">
         <RoomForm onSaved={() => { setShowForm(false); fetchRooms() }} />
