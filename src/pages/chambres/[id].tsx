@@ -105,7 +105,9 @@ const [blancTotalChecks, setBlancTotalChecks] = useState<Set<string>>(new Set())
   }
 
   // Filter items for this clean type
-  const relevantItems = items.filter(item => item.clean_types.includes(room.clean_type))
+  const relevantItems = cleanType
+  ? items.filter(item => item.clean_types.includes(cleanType) && !item.clean_types.every(t => t === 'blanc_total'))
+  : []
   const total = relevantItems.length
   const done = relevantItems.filter(i => checks.has(i.id)).length
   const progress = progressPercent(done, total)
