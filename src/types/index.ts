@@ -12,6 +12,17 @@ export interface RoomBlancTotal {
   checked_at: string
 }
 
+export interface Room {
+  id: string
+  number: string
+  floor: number
+  type: string
+  status: RoomStatus
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
 export interface ChecklistItem {
   id: string
   label: string
