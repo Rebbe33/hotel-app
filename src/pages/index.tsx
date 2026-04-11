@@ -22,7 +22,7 @@ export default function ChambresPage() {
       .from('hotel_rooms')
       .select('*')
       .order('number')
-    if (data) setRooms(data)
+    if (data) setRooms(data.sort((a, b) => parseInt(a.number) - parseInt(b.number)))
     setLoading(false)
   }
 
