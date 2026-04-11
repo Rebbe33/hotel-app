@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { ArrowLeft, CheckCircle, Plus, Flag, Trash2 } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Plus, Flag, Trash2, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { Room, ChecklistItem, RoomSession, SessionCheck, CleanType, CLEAN_TYPE_LABELS, CATEGORY_LABELS, ChecklistCategory } from '@/types'
 import { Button, Badge, Card, Modal } from '@/components/ui'
 import { progressPercent, cn } from '@/lib/utils'
-import { ArrowLeft, CheckCircle, Plus, Settings } from 'lucide-react'
 
 export default function RoomDetailPage() {
   const router = useRouter()
