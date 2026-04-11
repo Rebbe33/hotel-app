@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Plus, CheckCircle2, Circle, AlertCircle, Flag, Home, Globe } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
-import { Task, Room, TaskPriority, TaskStatus, TASK_PRIORITY_LABELS, ROOM_STATUS_LABELS } from '@/types'
+import { Task, Room, TaskPriority, TaskStatus, TASK_PRIORITY_LABELS } from '@/types'
 import { PageHeader, Card, Button, Badge, Modal } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
