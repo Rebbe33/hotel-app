@@ -20,8 +20,7 @@ interface Props {
 
 export function RoomForm({ onSaved, initialData }: Props) {
   const [number, setNumber] = useState(initialData?.number ?? '')
-  const [floor, setFloor] = useState(initialData?.floor?.toString() ?? '1')
-  const [type, setType] = useState(initialData?.type ?? 'standard')
+  const [zone, setZone] = useState(initialData?.zone ?? 'RDC')
   const [notes, setNotes] = useState(initialData?.notes ?? '')
   const [saving, setSaving] = useState(false)
   const [nbPersonnes, setNbPersonnes] = useState(initialData?.nb_personnes?.toString() ?? '1')
@@ -32,8 +31,7 @@ const [placesParLit, setPlacesParLit] = useState(initialData?.places_par_lit?.to
     if (!number.trim()) return
     setSaving(true)
     const payload = { number: number.trim(),
-  floor: parseInt(floor),
-  type,
+  zone,
   notes,
   nb_personnes: parseInt(nbPersonnes) || 1,
   nb_lits: parseInt(nbLits) || 1,
@@ -59,30 +57,18 @@ const [placesParLit, setPlacesParLit] = useState(initialData?.places_par_lit?.to
           className="w-full px-4 py-2.5 bg-cream-50 border border-cream-200 rounded-xl text-sm font-body focus:outline-none focus:border-sage-400"
         />
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="block text-sm font-body font-semibold text-gray-700 mb-1">Étage</label>
-          <input
-            type="number"
-            value={floor}
-            onChange={e => setFloor(e.target.value)}
-            min={0}
-            className="w-full px-4 py-2.5 bg-cream-50 border border-cream-200 rounded-xl text-sm font-body focus:outline-none focus:border-sage-400"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-body font-semibold text-gray-700 mb-1">Type</label>
-          <select
-            value={type}
-            onChange={e => setType(e.target.value)}
-            className="w-full px-4 py-2.5 bg-cream-50 border border-cream-200 rounded-xl text-sm font-body focus:outline-none focus:border-sage-400"
-          >
-            <option value="standard">Standard</option>
-            <option value="suite">Suite</option>
-            <option value="duplex">Duplex</option>
-          </select>
-        </div>
-      </div>
+<div>
+  <label className="block text-sm font-body font-semibold text-gray-700 mb-2">Zone</label>
+  <div className="grid grid-cols-3 gap-2">
+    {['RDC', 'B1', 'B2', 'Annexe RDC', 'Annexe 1er'].map(z => (
+      <button key={z} onClick={() => setZone(z)}
+        className={cn('py-2 rounded-xl text-xs font-body font-semibold border transition-all',
+          zone === z ? 'bg-sage-600 text-white border-sage-600' : 'bg-cream-50 text-gray-600 border-cream-200')}>
+        {z}
+      </button>
+    ))}
+  </div>
+</div>
       <div className="grid grid-cols-3 gap-3">
   <div>
     <label className="block text-xs font-body font-semibold text-gray-700 mb-1">Personnes</label>
