@@ -10,7 +10,7 @@ interface Props {
     id: string
     number: string
     zone: string
-    notes: string
+    notes: string | null
     nb_personnes: number
     nb_lits: number
     places_par_lit: number
