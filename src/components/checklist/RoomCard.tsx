@@ -7,9 +7,6 @@ import { RoomForm } from './RoomForm'
 import { supabase } from '@/lib/supabase'
 import { Edit2 } from 'lucide-react'
 
-const [showEdit, setShowEdit] = useState(false) 
-
-
 interface Props {
   room: Room
   onUpdate: () => void
