@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase'
 import { Room, ChecklistItem, RoomSession, SessionCheck, CleanType, CLEAN_TYPE_LABELS, CATEGORY_LABELS, ChecklistCategory } from '@/types'
 import { Button, Badge, Card, Modal } from '@/components/ui'
 import { progressPercent, cn } from '@/lib/utils'
+import { ArrowLeft, CheckCircle, Plus, Settings } from 'lucide-react'
 
 export default function RoomDetailPage() {
   const router = useRouter()
@@ -19,12 +20,16 @@ export default function RoomDetailPage() {
   const [choixFait, setChoixFait] = useState(false)
 const [cleanType, setCleanType] = useState<'recouche' | 'blanc' | null>(null)
 const [blancTotalChecks, setBlancTotalChecks] = useState<Set<string>>(new Set())
+  const [showGestion, setShowGestion] = useState(false)
 
   const fetchData = async () => {
     if (!id) return
     const [{ data: roomData }, { data: itemsData }] = await Promise.all([
       supabase.from('hotel_rooms').select('*').eq('id', id).single(),
-      supabase.from('hotel_checklist_items').select('*').order('order_index'),
+      supabase.from('hotel_checklist_items')
+  .select('*')
+  .eq('room_id', id)
+  .order('order_index'),
     ])
     if (roomData) setRoom(roomData)
     if (itemsData) setItems(itemsData)
@@ -153,6 +158,12 @@ const toggleBlancTotal = async (itemId: string) => {
     {CLEAN_TYPE_LABELS[cleanType]}
   </Badge>
 )}
+              <button
+  onClick={() => setShowGestion(true)}
+  className="p-2 rounded-xl bg-cream-100 text-gray-600 active:bg-cream-200"
+>
+  <Settings size={18} />
+</button>
               <span className="text-xs text-gray-400 font-body">Étage {room.floor}</span>
             </div>
           </div>
@@ -251,6 +262,7 @@ const toggleBlancTotal = async (itemId: string) => {
             </Card>
           </div>
         ))}
+        
 {/* Section Blanc Total — toujours visible, persistante */}
 {choixFait && (() => {
   const btItems = items.filter(i => i.clean_types.includes('blanc_total'))
@@ -337,6 +349,13 @@ const toggleBlancTotal = async (itemId: string) => {
           </Card>
         )}
       </div>
+      <Modal open={showGestion} onClose={() => setShowGestion(false)} title="Gérer les tâches">
+  <GestionTaches
+    roomId={room.id}
+    items={items}
+    onUpdate={() => { fetchData(); }}
+  />
+</Modal>
     </>
   )
 }
