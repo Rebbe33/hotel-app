@@ -15,6 +15,7 @@ export default function ChambresPage() {
   const [search, setSearch] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [showImport, setShowImport] = useState(false)
+  const [filterZone, setFilterZone] = useState<string>('toutes')
 
   const fetchRooms = async () => {
     const { data } = await supabase
@@ -28,7 +29,8 @@ export default function ChambresPage() {
   useEffect(() => { fetchRooms() }, [])
 
 const filtered = rooms.filter(r =>
-  r.number.toLowerCase().includes(search.toLowerCase())
+  r.number.toLowerCase().includes(search.toLowerCase()) &&
+  (filterZone === 'toutes' || r.zone === filterZone)
 )
 
   return (
@@ -47,7 +49,20 @@ const filtered = rooms.filter(r =>
 </div>
         }
       />
-
+<div className="px-5 mb-3 flex gap-2 overflow-x-auto pb-1">
+  {['toutes', 'RDC', 'B1', 'B2', 'Annexe RDC', 'Annexe 1er'].map(z => (
+    <button
+      key={z}
+      onClick={() => setFilterZone(z)}
+      className={cn(
+        'flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-body font-semibold border transition-all',
+        filterZone === z ? 'bg-sage-600 text-white border-sage-600' : 'bg-white text-gray-600 border-cream-200'
+      )}
+    >
+      {z}
+    </button>
+  ))}
+</div>
       {/* Search */}
       <div className="px-5 mb-4">
         <div className="relative">
