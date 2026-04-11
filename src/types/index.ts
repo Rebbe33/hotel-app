@@ -14,8 +14,7 @@ export interface RoomBlancTotal {
 export interface Room {
   id: string
   number: string
-  floor: number
-  type: string
+ zone: string
   nb_personnes: number      // ← ajouter
   nb_lits: number           // ← ajouter
   places_par_lit: number    // ← ajouter
