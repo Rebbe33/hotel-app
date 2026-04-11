@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui'
 import { CleanType, CLEAN_TYPE_LABELS } from '@/types'
+import { cn } from '@/lib/utils'
 
 interface Props {
   onSaved: () => void
