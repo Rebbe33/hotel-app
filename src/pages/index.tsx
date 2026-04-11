@@ -19,7 +19,6 @@ export default function ChambresPage() {
   const [rooms, setRooms] = useState<Room[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-  const [filterStatus, setFilterStatus] = useState<RoomStatus | 'tous'>('tous')
   const [showForm, setShowForm] = useState(false)
   const [showImport, setShowImport] = useState(false)
 
@@ -35,24 +34,15 @@ export default function ChambresPage() {
 
   useEffect(() => { fetchRooms() }, [])
 
-  const filtered = rooms.filter(r => {
-    const matchSearch = r.number.toLowerCase().includes(search.toLowerCase())
-    const matchStatus = filterStatus === 'tous' || r.status === filterStatus
-    return matchSearch && matchStatus
-  })
-
-  const counts = {
-    a_faire: rooms.filter(r => r.status === 'a_faire').length,
-    en_cours: rooms.filter(r => r.status === 'en_cours').length,
-    termine: rooms.filter(r => r.status === 'termine').length,
-    bloque: rooms.filter(r => r.status === 'bloque').length,
-  }
+const filtered = rooms.filter(r =>
+  r.number.toLowerCase().includes(search.toLowerCase())
+)
 
   return (
     <>
       <PageHeader
         title="Chambres"
-        subtitle={`${rooms.length} chambres · ${counts.termine} terminées`}
+        subtitle={`${rooms.length} chambres`}
         action={
           <div className="flex gap-2">
   <Button size="sm" variant="secondary" onClick={() => setShowImport(true)}>
@@ -64,29 +54,6 @@ export default function ChambresPage() {
 </div>
         }
       />
-
-      {/* Stats rapides */}
-      <div className="px-5 grid grid-cols-4 gap-2 mb-4">
-        {(Object.entries(counts) as [RoomStatus, number][]).map(([status, count]) => (
-          <button
-            key={status}
-            onClick={() => setFilterStatus(filterStatus === status ? 'tous' : status)}
-            className={cn(
-              'rounded-xl p-2 text-center border transition-all',
-              filterStatus === status
-                ? 'bg-sage-600 text-white border-sage-600'
-                : 'bg-white border-cream-200'
-            )}
-          >
-            <div className={cn('text-xl font-display font-bold', filterStatus === status ? 'text-white' : 'text-gray-800')}>
-              {count}
-            </div>
-            <div className={cn('text-[9px] font-body leading-tight', filterStatus === status ? 'text-white/80' : 'text-gray-500')}>
-              {ROOM_STATUS_LABELS[status]}
-            </div>
-          </button>
-        ))}
-      </div>
 
       {/* Search */}
       <div className="px-5 mb-4">
