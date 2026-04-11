@@ -30,7 +30,7 @@ export default function ChambresPage() {
 
 const filtered = rooms.filter(r =>
   r.number.toLowerCase().includes(search.toLowerCase()) &&
-  (filterZone === 'toutes' || r.zone === filterZone)
+  (filterZone === 'Toutes' || r.zone === filterZone)
 )
 
   return (
@@ -50,7 +50,7 @@ const filtered = rooms.filter(r =>
         }
       />
 <div className="px-5 mb-3 flex gap-2 overflow-x-auto pb-1">
-  {['toutes', 'RDC', 'B1', 'B2', 'Annexe RDC', 'Annexe 1er'].map(z => (
+  {['Toutes', 'RDC', 'B1', 'B2', 'Annexe RDC', 'Annexe 1er'].map(z => (
     <button
       key={z}
       onClick={() => setFilterZone(z)}
