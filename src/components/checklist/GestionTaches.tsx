@@ -21,6 +21,75 @@ export function GestionTaches({ roomId, items, onUpdate }: Props) {
     onUpdate()
   }
 
+  function AjoutTacheForm({ roomId, orderIndex, onSaved }: {
+  roomId: string
+  orderIndex: number
+  onSaved: () => void
+}) {
+  const [label, setLabel] = useState('')
+  const [category, setCategory] = useState<ChecklistCategory>('chambre')
+  const [cleanTypes, setCleanTypes] = useState<CleanType[]>(['recouche', 'blanc', 'blanc_total'])
+  const [saving, setSaving] = useState(false)
+
+  const toggleCleanType = (ct: CleanType) => {
+    setCleanTypes(prev =>
+      prev.includes(ct) ? prev.filter(t => t !== ct) : [...prev, ct]
+    )
+  }
+
+  const handleSubmit = async () => {
+    if (!label.trim() || cleanTypes.length === 0) return
+    setSaving(true)
+    await supabase.from('hotel_checklist_items').insert({
+      label: label.trim(),
+      category,
+      clean_types: cleanTypes,
+      is_blanc_total: false,
+      order_index: orderIndex,
+      room_id: roomId,
+    })
+    setSaving(false)
+    onSaved()
+  }
+
+  return (
+    <div className="bg-cream-50 rounded-2xl p-4 space-y-3 border border-cream-200">
+      <input
+        value={label}
+        onChange={e => setLabel(e.target.value)}
+        placeholder="Nom de la tâche..."
+        className="w-full px-4 py-2.5 bg-white border border-cream-200 rounded-xl text-sm font-body focus:outline-none focus:border-sage-400"
+      />
+
+      {/* Catégorie */}
+      <div className="grid grid-cols-2 gap-2">
+        {(['entree', 'chambre', 'salle_de_bain', 'general'] as ChecklistCategory[]).map(cat => (
+          <button key={cat} onClick={() => setCategory(cat)}
+            className={cn('py-1.5 rounded-lg text-xs font-body font-semibold border transition-all',
+              category === cat ? 'bg-sage-600 text-white border-sage-600' : 'bg-white text-gray-600 border-cream-200')}>
+            {CATEGORY_LABELS[cat]}
+          </button>
+        ))}
+      </div>
+
+      {/* Types de nettoyage */}
+      <div className="flex gap-2">
+        {(['recouche', 'blanc', 'blanc_total'] as CleanType[]).map(ct => (
+          <button key={ct} onClick={() => toggleCleanType(ct)}
+            className={cn('flex-1 py-1.5 rounded-lg text-xs font-body font-semibold border transition-all',
+              cleanTypes.includes(ct) ? 'bg-sage-600 text-white border-sage-600' : 'bg-white text-gray-600 border-cream-200')}>
+            {CLEAN_TYPE_LABELS[ct]}
+          </button>
+        ))}
+      </div>
+
+      <Button className="w-full" size="sm" onClick={handleSubmit} disabled={saving || !label.trim()}>
+        {saving ? 'Ajout...' : 'Ajouter la tâche'}
+      </Button>
+    </div>
+  )
+}
+
   const handleXlsxImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
