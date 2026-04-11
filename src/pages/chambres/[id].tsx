@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase'
 import { Room, ChecklistItem, RoomSession, SessionCheck, CleanType, CLEAN_TYPE_LABELS, CATEGORY_LABELS, ChecklistCategory } from '@/types'
 import { Button, Badge, Card, Modal } from '@/components/ui'
 import { progressPercent, cn } from '@/lib/utils'
+import { GestionTaches } from '@/components/checklist/GestionTaches'
 
 export default function RoomDetailPage() {
   const router = useRouter()
