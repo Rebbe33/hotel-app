@@ -20,7 +20,6 @@ export default function ChambresPage() {
     const { data } = await supabase
       .from('hotel_rooms')
       .select('*')
-      .order('zone')
       .order('number')
     if (data) setRooms(data)
     setLoading(false)
