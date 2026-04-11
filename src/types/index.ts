@@ -1,5 +1,4 @@
 export type CleanType = 'recouche' | 'blanc' | 'blanc_total'
-export type RoomStatus = 'a_faire' | 'en_cours' | 'termine' | 'bloque'
 export type TaskPriority = 'basse' | 'normale' | 'haute' | 'urgente'
 export type TaskStatus = 'a_faire' | 'en_cours' | 'termine'
 export type StockCategory = 'linge' | 'produits' | 'amenities' | 'autre'
@@ -17,7 +16,6 @@ export interface Room {
   number: string
   floor: number
   type: string
-  status: RoomStatus
   nb_personnes: number      // ← ajouter
   nb_lits: number           // ← ajouter
   places_par_lit: number    // ← ajouter
@@ -34,6 +32,7 @@ export interface ChecklistItem {
   is_blanc_total: boolean
   order_index: number
   created_at: string
+  room_id: string | null
 }
 
 export interface RoomSession {
@@ -115,13 +114,6 @@ export const CLEAN_TYPE_LABELS: Record<CleanType, string> = {
   recouche: 'Recouche',
   blanc: 'Blanc',
   blanc_total: 'Blanc Total',
-}
-
-export const ROOM_STATUS_LABELS: Record<RoomStatus, string> = {
-  a_faire: 'À faire',
-  en_cours: 'En cours',
-  termine: 'Terminée',
-  bloque: 'Bloquée',
 }
 
 export const TASK_PRIORITY_LABELS: Record<TaskPriority, string> = {
