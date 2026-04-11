@@ -30,7 +30,7 @@ export default function ChambresPage() {
 
 const filtered = rooms.filter(r =>
   r.number.toLowerCase().includes(search.toLowerCase()) &&
-  (filterZone === 'Toutes' || r.zone === filterZone)
+  (filterZone === 'toutes' || r.zone === filterZone)
 )
 
   return (
