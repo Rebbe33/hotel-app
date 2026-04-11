@@ -1,19 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Plus, Search, Filter } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
-import { Room, RoomStatus, CleanType, CLEAN_TYPE_LABELS, ROOM_STATUS_LABELS } from '@/types'
+import { Room, CleanType, CLEAN_TYPE_LABELS } from '@/types'
 import { PageHeader, Card, Button, Badge, Modal } from '@/components/ui'
 import { RoomCard } from '@/components/checklist/RoomCard'
 import { RoomForm } from '@/components/checklist/RoomForm'
 import { cn } from '@/lib/utils'
 import { ImportChecklist } from '@/components/checklist/ImportChecklist'
 
-const STATUS_COLORS: Record<RoomStatus, string> = {
-  a_faire: 'terra',
-  en_cours: 'sage',
-  termine: 'cream',
-  bloque: 'urgent',
-}
 
 export default function ChambresPage() {
   const [rooms, setRooms] = useState<Room[]>([])
