@@ -35,7 +35,7 @@ export default function TachesPage() {
   const fetchAll = async () => {
     const [{ data: taskData }, { data: roomData }] = await Promise.all([
       supabase.from('hotel_tasks').select('*').order('priority', { ascending: false }).order('created_at'),
-      supabase.from('hotel_rooms').select('id, number, floor').order('number'),
+      supabase.from('hotel_rooms').select('id, number, zone').order('number'),
     ])
     if (taskData) setTasks(taskData)
     if (roomData) setRooms(roomData as Room[])
