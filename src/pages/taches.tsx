@@ -149,7 +149,7 @@ export default function TachesPage() {
               <div key={room.id}>
                 <h3 className="font-display text-sm font-semibold text-gray-500 mb-2">
                   🛏 Chambre {room.number}
-                  <span className="text-xs font-body font-normal text-gray-400 ml-2">Étage {room.floor}</span>
+                  <span className="text-xs font-body font-normal text-gray-400 ml-2">{room.zone}</span>
                 </h3>
                 <div className="space-y-2">
                   {rt.map(task => (
@@ -284,7 +284,7 @@ function TaskForm({ task, rooms, onSaved }: { task: Task | null; rooms: Room[]; 
         <select value={roomId} onChange={e => setRoomId(e.target.value)}
           className="w-full px-4 py-2.5 bg-cream-50 border border-cream-200 rounded-xl text-sm font-body focus:outline-none focus:border-sage-400">
           <option value="">Tâche globale (pas de chambre)</option>
-          {rooms.map(r => <option key={r.id} value={r.id}>Chambre {r.number} (étage {r.floor})</option>)}
+          {rooms.map(r => <option key={r.id} value={r.id}>Chambre {r.number} ({r.zone})</option>)}
         </select>
       </div>
       <div>
