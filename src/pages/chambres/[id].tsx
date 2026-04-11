@@ -164,7 +164,7 @@ const toggleBlancTotal = async (itemId: string) => {
 >
   <Settings size={18} />
 </button>
-              <span className="text-xs text-gray-400 font-body">Étage {room.floor}</span>
+              <span className="text-xs text-gray-400 font-body">{room.zone}</span>
             </div>
           </div>
           {session && (
