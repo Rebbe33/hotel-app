@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { Room } from '@/types'
 
 interface Props {
   room: Room
