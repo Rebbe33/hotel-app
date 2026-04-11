@@ -8,8 +8,7 @@ interface Props {
   initialData?: {
     id: string
     number: string
-    floor: number
-    type: string
+    zone: string
     notes: string
     nb_personnes: number
     nb_lits: number
